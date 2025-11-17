@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呉市外国人人口ダッシュボード</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 呉市外国人人口ダッシュボード</h1>
+            <h2>呉市オープンデータAPIを使用した外国人人口の可視化</h2>
+        </header>
+
+        <div class="settings-panel">
+            <div class="input-group">
+                <label for="apiToken">アクセストークン:</label>
+                <input type="password" id="apiToken" placeholder="ecp-api-tokenを入力してください">
+                <button onclick="toggleTokenVisibility()" class="toggle-btn">👁️</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="yearMonth">集計月:</label>
+                <input type="month" id="yearMonth" value="2025-02">
+            </div>
+            
+            <button onclick="fetchData()" class="fetch-btn">データ取得</button>
+            <button onclick="testWithSampleData()" class="fetch-btn" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);">テストデータで表示</button>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <div id="loadingMessage" class="loading-message" style="display: none;">
+            データを読み込み中...
+        </div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- サマリーカード -->
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-title">外国人総人口</div>
+                    <div class="card-value" id="totalForeignPopulation">-</div>
+                    <div class="card-unit">人</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">総人口</div>
+                    <div class="card-value" id="totalPopulation">-</div>
+                    <div class="card-unit">人</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">外国人割合</div>
+                    <div class="card-value" id="foreignRatio">-</div>
+                    <div class="card-unit">%</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">国籍数</div>
+                    <div class="card-value" id="nationalityCount">-</div>
+                    <div class="card-unit">国</div>
+                </div>
+            </div>
+
+            <!-- グラフセクション -->
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>国籍別構成比</h3>
+                    <canvas id="nationalityChart"></canvas>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>年代別外国人人口</h3>
+                    <canvas id="ageGroupChart"></canvas>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>地域別外国人人口分布</h3>
+                    <canvas id="districtChart"></canvas>
+                </div>
+            </div>
+
+            <!-- データテーブル -->
+            <div class="table-card">
+                <h3>詳細データ</h3>
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>分類</th>
+                                <th>カテゴリ</th>
+                                <th>人口</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
